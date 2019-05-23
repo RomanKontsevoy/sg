@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 
 import {Header, ImageCard, Layout} from '../components/ui';
-import {url} from '../../constants';
+import {url2} from '../../constants';
+import {STARGATE_DETAILS} from "../routes";
 
 
 export default class HomeScreen extends Component {
@@ -16,7 +17,7 @@ export default class HomeScreen extends Component {
 
     componentDidMount = async () => {
         try {
-            const response = await fetch(url);
+            const response = await fetch(url2);
             const data = await response.json();
             this.setState({data});
         } catch (e) {
@@ -26,6 +27,7 @@ export default class HomeScreen extends Component {
 
     render() {
         const {title, data} = this.state;
+        const { navigation } = this.props;
         return (
             <View>
                 <Header title={title}/>
@@ -33,8 +35,9 @@ export default class HomeScreen extends Component {
                     {
                         data.map(item => (
                             <ImageCard
-                                key={item.id}
-                                data={item}
+                                key={item.show.id}
+                                data={item.show}
+                                onPress={() => navigation.navigate(STARGATE_DETAILS, (item.show))}
                             />
                         ))
                     }
@@ -43,3 +46,4 @@ export default class HomeScreen extends Component {
         );
     }
 }
+
