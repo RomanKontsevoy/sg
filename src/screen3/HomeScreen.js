@@ -2,22 +2,22 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 
 import {Header, ImageCard, Layout} from '../components/ui';
-import {url} from '../../constants';
-import {STARGATE_DETAILS} from "../routes";
+import {url3} from '../../constants';
+import {SPIDER_DETAILS} from "../routes";
 
 
 export default class HomeScreen extends Component {
     constructor() {
         super();
         this.state = {
-            title: 'star gate',
+            title: 'Spider man',
             data: []
         }
     }
 
     componentDidMount = async () => {
         try {
-            const response = await fetch(url);
+            const response = await fetch(url3);
             const data = await response.json();
             this.setState({data});
         } catch (e) {
@@ -30,14 +30,16 @@ export default class HomeScreen extends Component {
         const { navigation } = this.props;
         return (
             <View>
-                <Header title={title}/>
+                <Header
+                    title={title}
+                />
                 <Layout>
                     {
                         data.map(item => (
                             <ImageCard
                                 key={item.show.id}
                                 data={item.show}
-                                onPress={() => navigation.navigate(STARGATE_DETAILS, (item.show))}
+                                onPress={() => navigation.navigate(SPIDER_DETAILS, (item.show))}
                             />
                         ))
                     }
