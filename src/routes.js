@@ -1,0 +1,3 @@
+export const STARGATE_HOME = 'STARGATE_HOME'
+export const STARGATE_DETAILS = 'STARGATE_DETAILS'
+
