@@ -30,7 +30,12 @@ export default class HomeScreen extends Component {
         const { navigation } = this.props;
         return (
             <View>
-                <Header title={title}/>
+                <Header
+                    title={title}
+                    leftIcon="ios-menu"
+                    leftColor="#fff"
+                    onPress={() => navigation.openDrawer()}
+                />
                 <Layout>
                     {
                         data.map(item => (

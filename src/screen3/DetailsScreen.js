@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
-import {ScrollView, View, Text, StyleSheet} from 'react-native';
+import {Button, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {Header, ImageBigCard} from '../components/ui';
+import {STARGATE_HOME} from "../routes";
 
 
 class DetailsScreen extends PureComponent {
@@ -22,6 +23,12 @@ class DetailsScreen extends PureComponent {
                     <View style={sub}>
                         <ImageBigCard
                             data={data}
+                        />
+                        <Button
+                            onPress={() => navigation.navigate (STARGATE_HOME) }
+                            title="HOME"
+                            color="#841584"
+                            accessibilityLabel="Learn more about this purple button"
                         />
                         <Text style={h1}>{name.toUpperCase()}</Text>
                         <Text style={h2}>{summary.replace(/<[^>]+>/g, '')}</Text>
