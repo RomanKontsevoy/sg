@@ -29,8 +29,8 @@ class DetailsScreen extends PureComponent {
                         <ImageBigCard
                             data={data}
                         />
-                        <Text style={h1}>{name.toUpperCase()}</Text>
-                        <Text style={h2}>{summary.replace(/<[^>]+>/g, '')}</Text>
+                        <Text style={h1}>{name ? name.toUpperCase() : ''}</Text>
+                        <Text style={h2}>{summary ? summary.replace(/<[^>]+>/g, '') : ''}</Text>
                     </View>
                 </ScrollView>
             </View>
