@@ -1,52 +1,68 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
-
-import {Header, ImageCard, Layout} from '../components/ui';
-import {url} from '../../constants';
+import {connect} from 'react-redux';
+import {searchChanged, getMovies} from "../actions";
+import {Header, ImageCard, SearchBar, Layout} from '../components/ui';
 import {STARGATE_DETAILS} from "../routes";
 
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
     constructor() {
         super();
         this.state = {
             title: 'star gate',
-            data: []
-        }
+            visibleSearchbar: false,
+        };
+        this.onBlurInput = this.onBlurInput.bind(this);
     }
 
-    componentDidMount = async () => {
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            this.setState({data});
-        } catch (e) {
-            throw e
-        }
+
+    onChangeText = text => {
+        this.props.searchChanged(text);
+        this.props.getMovies(text)
     };
 
-    onGoBack = (someDataFromChildren) => {
-        console.log('someDataFromChildren:', someDataFromChildren)
+    onBlurInput () {
+        console.log('onBlur:');
+        this.setState({visibleSearchbar: true})
     };
+
+    componentDidMount() {
+        this.props.getMovies(this.props.movie);
+    }
 
     render() {
-        const {title, data} = this.state;
-        const {navigation} = this.props;
+        const {title, visibleSearchbar} = this.state;
+        const {navigation, movie, data} = this.props;
         return (
             <View>
-                <Header
-                    title={title}
-                    leftIcon="ios-menu"
-                    leftColor="#fff"
-                    onPress={() => navigation.openDrawer()}
-                />
+                {visibleSearchbar ?
+                    <SearchBar
+                        colorRight={'#fff'}
+                        iconRight='magnify'
+                        placeholder="Поиск"
+                        onChangeText={this.onChangeText}
+                        value={movie}
+                        onPressRight={() => this.setState({visibleSearchbar: false})}
+                        onBlur={this.onBlurInput}
+                    /> :
+                    <Header
+                        iconRight="magnify"
+                        colorRight={"#fff"}
+                        title={title}
+                        onPressRight={() => this.setState({visibleSearchbar: true})}
+                    />
+                }
                 <Layout>
                     {
                         data.map(item => (
                             <ImageCard
                                 key={item.show.id}
                                 data={item.show}
-                                onPress={() => navigation.navigate(STARGATE_DETAILS, ({ show: item.show, onGoBack: this.onGoBack  }))}
+                                onPress={() => navigation.navigate(STARGATE_DETAILS, ({
+                                    show: item.show,
+                                    onGoBack: this.onGoBack
+                                }))}
                             />
                         ))
                     }
@@ -56,3 +72,11 @@ export default class HomeScreen extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        movie: state.search.movie,
+        data: state.search.data
+    }
+};
+
+export default connect(mapStateToProps, {searchChanged, getMovies})(HomeScreen)

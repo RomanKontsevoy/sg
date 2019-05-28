@@ -4,11 +4,6 @@ import {Header, ImageBigCard} from '../components/ui';
 
 
 class DetailsScreen extends PureComponent {
-    componentWillUnmount() {
-        const { onGoBack } = this.props.navigation.state.params;
-        onGoBack && onGoBack('Hello from children');
-    }
-
     render() {
         const { show } = this.props.navigation.state.params;
         const { image, name, summary } = show;
@@ -20,9 +15,9 @@ class DetailsScreen extends PureComponent {
                 <Header
                     detail
                     title={name}
-                    onPress={() => navigation.goBack()}
-                    leftIcon='ios-arrow-back'
-                    leftColor='#fff'
+                    onPressLeft={() => navigation.goBack()}
+                    iconLeft='ios-arrow-back'
+                    colorLeft='#fff'
                 />
                 <ScrollView>
                     <View style={sub}>
@@ -40,8 +35,7 @@ class DetailsScreen extends PureComponent {
 
 const styles = StyleSheet.create ({
     container: {
-        backgroundColor: '#fff',
-
+        backgroundColor: '#fff'
     },
     h1: {
         fontFamily: 'AvenirNext-DemiBold',

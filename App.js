@@ -1,79 +1,18 @@
-import React from 'react';
-// import {createBottomTabNavigator} from 'react-navigation'
-import {createDrawerNavigator} from 'react-navigation'
-// import Ionicons from 'react-native-vector-icons/Ionicons'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import One from './src/screen1'
-import Two from './src/screen2'
-import Three from './src/screen3'
-import {BLUE} from "./constants";
+import React from 'react'
+import {Provider} from 'react-redux'
+import {createStore, applyMiddleware} from 'redux'
+import ReduxThunk from 'redux-thunk'
+import reducers from './src/reducers'
+import HomeScreen from './src/screen1'
 
-export default createDrawerNavigator(
-    {
-        Screen1: {
-            screen: One,
-            navigationOptions: {
-                drawerLabel: 'Stargate',
-                drawerIcon: ({tintColor}) => (
-                    <MaterialIcons name="grade" size={24} style={{color: tintColor}}/>
-                )
-            }
-        },
-        Screen2: {
-            screen: Two,
-            navigationOptions: {
-                drawerLabel: 'Batman',
-                drawerIcon: ({tintColor}) => (
-                    <MaterialIcons name="favorite" size={24} style={{color: tintColor}}/>
-                )
-            }
-        },
-        Screen3: {
-            screen: Three,
-            navigationOptions: {
-                drawerLabel: 'Spiderman',
-                drawerIcon: ({tintColor}) => (
-                    <MaterialIcons name="pets" size={24} style={{color: tintColor}}/>
-                )
-            }
-        }
-    },
-    {
-        initialRouteName: 'Screen1',
-        contentOption: {
-            activeTintColor: BLUE,
-            itemsContainerStyle: {
-                marginVertical: 65
-            }
-        }
-    }
-)
+const store = createStore(reducers, applyMiddleware(ReduxThunk));
 
+const App = () => {
+    return (
+        <Provider store={store}>
+            <HomeScreen/>
+        </Provider>
+    )
+};
 
-// export default createBottomTabNavigator(
-//     {
-//         Stargate: One,
-//         Batman: Two,
-//         Spiderman: Three,
-//     },
-//     {
-//         navigationOptions: ({navigation}) => ({
-//             tabBarIcon: ({focused, tintColor}) => {
-//                 const {routeName} = navigation.state;
-//                 let iconName;
-//                 if (routeName === 'Stargate') {
-//                     iconName = focused ? 'ios-videocam' : 'ios-play'
-//                 } else if (routeName === 'Batman') {
-//                     iconName = focused ? 'ios-videocam' : 'ios-play'
-//                 } else if (routeName === 'Spiderman') {
-//                     iconName = focused ? 'ios-videocam' : 'ios-play'
-//                 }
-//                 return <Ionicons name={iconName} size={25} color={tintColor}/>
-//             }
-//         }),
-//         tabBarOptions: {
-//             activeTintColor: BLUE,
-//             inactiveTintColor: 'grey'
-//         }
-//     }
-// )
+export default App
